@@ -1,0 +1,67 @@
+:root {
+  color-scheme: dark;
+  font-family:
+    Inter,
+    'IBM Plex Sans',
+    'Segoe UI',
+    sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #f7f3ff;
+  background:
+    radial-gradient(circle at top, rgba(124, 58, 237, 0.16), transparent 24%),
+    linear-gradient(180deg, #181520 0%, #12101a 100%);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, rgba(124, 58, 237, 0.16), transparent 24%),
+    linear-gradient(180deg, #181520 0%, #12101a 100%);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(79, 127, 255, 0.14), transparent 26%),
+    radial-gradient(circle at 80% 18%, rgba(236, 72, 153, 0.1), transparent 22%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+svg {
+  display: block;
+}
+
+#root {
+  min-height: 100vh;
+}
