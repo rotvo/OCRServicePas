@@ -49,6 +49,50 @@ type UpgradeCard = {
   title: string
 }
 
+const stripePaymentConfig = {
+  annualProPath:
+    import.meta.env.VITE_STRIPE_PAYMENT_LINK_ANNUAL_PRO?.trim() ?? '',
+  baseUrl: import.meta.env.VITE_STRIPE_PAYMENT_LINK_BASE?.trim() ?? '',
+  monthlyEnterprisePath:
+    import.meta.env.VITE_STRIPE_PAYMENT_LINK_MONTHLY_ENTERPRISE?.trim() ?? '',
+}
+
+function isLocalhostHost(hostname: string) {
+  return hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1'
+}
+
+function buildStripePaymentLink(path: string) {
+  if (!stripePaymentConfig.baseUrl || !path) {
+    return ''
+  }
+
+  const usesTestPrefix =
+    typeof window !== 'undefined' && isLocalhostHost(window.location.hostname)
+
+  const baseUrl = stripePaymentConfig.baseUrl.endsWith('/')
+    ? stripePaymentConfig.baseUrl
+    : `${stripePaymentConfig.baseUrl}/`
+  const testPrefix = usesTestPrefix ? 'test_' : ''
+
+  return `${baseUrl}${testPrefix}${path}`
+}
+
+function getStripePaymentLink(planCode: UpgradeCard['planCode']) {
+  if (typeof window === 'undefined') {
+    if (planCode === 'annual-pro') {
+      return buildStripePaymentLink(stripePaymentConfig.annualProPath)
+    }
+
+    return buildStripePaymentLink(stripePaymentConfig.monthlyEnterprisePath)
+  }
+
+  if (planCode === 'annual-pro') {
+    return buildStripePaymentLink(stripePaymentConfig.annualProPath)
+  }
+
+  return buildStripePaymentLink(stripePaymentConfig.monthlyEnterprisePath)
+}
+
 const workspaceSections: NavSection[] = [
   {
     title: 'Workspace',
@@ -372,6 +416,14 @@ function PlanFeature({ text }: { text: string }) {
 }
 
 function UpgradeOption({ card }: { card: UpgradeCard }) {
+  const handleCheckout = () => {
+    if (!card.paymentLink) {
+      return
+    }
+
+    window.location.assign(card.paymentLink)
+  }
+
   return (
     <article className={`pricing-card pricing-card--${card.accent}`}>
       <header className="pricing-card-header">
@@ -403,6 +455,8 @@ function UpgradeOption({ card }: { card: UpgradeCard }) {
         data-payment-link={card.paymentLink ?? ''}
         data-plan-code={card.planCode}
         className={`pricing-card-button pricing-card-button--${card.accent}`}
+        disabled={!card.paymentLink}
+        onClick={handleCheckout}
       >
         {card.cta}
       </button>
@@ -410,7 +464,14 @@ function UpgradeOption({ card }: { card: UpgradeCard }) {
   )
 }
 
-export default function PasarelaPage() {
+export default function PlansOCRPage() {
+  const cards = upgradeCards.map((card) =>
+    ({
+      ...card,
+      paymentLink: getStripePaymentLink(card.planCode),
+    })
+  )
+
   const scrollToUpgradeOptions = () => {
     document
       .getElementById('upgrade-options')
@@ -526,7 +587,7 @@ export default function PasarelaPage() {
                 </div>
 
                 <div className="pricing-grid">
-                  {upgradeCards.map((card) => (
+                  {cards.map((card) => (
                     <UpgradeOption key={card.title} card={card} />
                   ))}
                 </div>

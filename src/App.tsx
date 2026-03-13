@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import LandingPage from './pages/landing'
-import PasarelaPage from './pages/pasarela'
+import PlansOCR from './pages/PlansOCR'
 
 const OCR_UPGRADE_HASH = '#upgrade-ocr'
 
@@ -18,7 +18,7 @@ function App() {
     }
   }, [])
 
-  return hash === OCR_UPGRADE_HASH ? <PasarelaPage /> : <LandingPage />
+  return hash === OCR_UPGRADE_HASH ? <PlansOCR /> : <LandingPage />
 }
 
 export default App
