@@ -2,23 +2,22 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import LandingPage from './pages/landing'
 import PlansOCR from './pages/PlansOCR'
-
-const OCR_UPGRADE_HASH = '#upgrade-ocr'
+import { OCR_UPGRADE_PATH } from './routes'
 
 function App() {
-  const [hash, setHash] = useState(() => window.location.hash)
+  const [pathname, setPathname] = useState(() => window.location.pathname)
 
   useEffect(() => {
-    const syncHash = () => setHash(window.location.hash)
+    const syncPathname = () => setPathname(window.location.pathname)
 
-    window.addEventListener('hashchange', syncHash)
+    window.addEventListener('popstate', syncPathname)
 
     return () => {
-      window.removeEventListener('hashchange', syncHash)
+      window.removeEventListener('popstate', syncPathname)
     }
   }, [])
 
-  return hash === OCR_UPGRADE_HASH ? <PlansOCR /> : <LandingPage />
+  return pathname === OCR_UPGRADE_PATH ? <PlansOCR /> : <LandingPage />
 }
 
 export default App

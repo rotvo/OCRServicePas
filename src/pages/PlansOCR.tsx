@@ -1,3 +1,6 @@
+import SiteFooter from '../components/SiteFooter'
+import { HOME_PATH } from '../routes'
+
 type IconName =
   | 'account'
   | 'apps'
@@ -482,7 +485,7 @@ export default function PlansOCRPage() {
     <div className="plans-page">
       <header className="plans-topbar">
         <div className="plans-topbar-inner">
-          <a href="#" className="brand-mark" aria-label="Vision OCR home">
+          <a href={HOME_PATH} className="brand-mark" aria-label="railwayocr home">
             <RailwayLogo />
           </a>
 
@@ -596,6 +599,8 @@ export default function PlansOCRPage() {
           </section>
         </main>
       </div>
+
+      <SiteFooter />
     </div>
   )
 }

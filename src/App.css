@@ -568,7 +568,7 @@
 .landing-footer {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 18px 32px 48px;
+  padding: 72px 32px 56px;
   display: grid;
   grid-template-columns: minmax(240px, 360px) 1fr;
   gap: 48px;
@@ -1339,6 +1339,7 @@
   .landing-footer {
     padding-left: 20px;
     padding-right: 20px;
+    padding-top: 56px;
     gap: 32px;
   }
 
